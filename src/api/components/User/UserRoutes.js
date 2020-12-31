@@ -15,8 +15,8 @@ router.route('/users/:id')
     .get([
         UserController.readOneById
     ])
-    .put([
-        UserController.editOne
+    .patch([
+        UserController.editOneById
     ])
     .delete([
         UserController.deleteOne

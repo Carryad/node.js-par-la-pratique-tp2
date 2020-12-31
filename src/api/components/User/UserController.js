@@ -33,34 +33,62 @@ exports.createOne = (req,res) => {
     res.status(201).json(user);
 }
 
-// Edit one
-exports.editOne = (req,res) => {
-    const user = users.find(user => user.id == req.params.id);
+// Update one by id
+exports.editOneById = (req,res) => {
+
+    let user = users.find(user => user.id == req.params.id);
 
     if (!user){
         res.status(404).json({result: `id ${req.params.id} not found`});
-    }else{
-        user.splice(user.id,
-            {
-                firstname: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                password: req.body.password,
-                phone: req.body.phone,
-                role: req.body.role
-            })
+        return;
     }
-    console.log(req.body);
+
+    // Correction :
+    /*for (const key in req.body){
+        if (user.hasOwnProperty(key)) {
+            if (key != 'id') {
+                user[key] = req.body[key];
+            }
+        }
+        console.log(key);
+    }
+    res.status(201).json(user);*/
+
+    // Ma méthode : 
+    if (req.body.firstName != null){
+        user.firstName = req.body.firstName;
+    }
+    if (req.body.lastName != null) {
+        user.lastName = req.body.lastName;
+    }
+    if (req.body.email != null) {
+        user.email = req.body.email;
+    }
+    if (req.body.password != null) {
+        user.password = req.body.password;
+    }
+    if (req.body.phone != null) {
+        user.phone = req.body.phone;
+    }
+    if (req.body.role != null) {
+        user.role = req.body.role;
+    }
+
     res.status(201).json(user);
+    
 }
 
 // Delete one
 exports.deleteOne = (req,res) =>{
-    const user = users.find(user => user.id == req.params.id);
+    let user = users.find(user => user.id == req.params.id);
 
     if (!user){
         res.status(404).json({result: `id ${req.params.id} not found`});
-    }else{
-        delete user;
     }
+
+    users = users.filter(user => user.id != req.params.id);
+
+    res.status(200).json(`L'utilisateur ayant pour id ${req.params.id} a été supprimé`);
+
+    //Moi j'avais pas réussi ca xD
 }
