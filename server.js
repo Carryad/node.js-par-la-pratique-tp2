@@ -9,6 +9,10 @@ const cors = require("cors");
 //HEADERS
 
 //Middelware
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 app.use(morgan(config.format_logs));
 app.use(cors());
 
